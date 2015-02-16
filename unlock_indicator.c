@@ -243,53 +243,53 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
                           (highlight_start + (M_PI / 3.0)) + (M_PI / 128.0)*weight - (1.-weight)*(M_PI / 3.0)/2./* end */);
                 cairo_stroke(ctx);
             }
+        }
 
-            /* Display a (centered) text of the current PAM state. */
-            char *text = NULL;
-            char *text2 = NULL; // second line of text
-            switch (pam_state) {
-                case STATE_PAM_VERIFY:
-                    text = "Can I trust you?";
-                    break;
-                case STATE_PAM_WRONG:
-                    text = "Nope!";
-                    break;
-                default:
-                    text = "WOPR";
-                    text2 = "War Operation Plan Response";
-                    break;
-            }
+        /* Display a (centered) text of the current PAM state. */
+        char *text = NULL;
+        char *text2 = NULL; // second line of text
+        switch (pam_state) {
+            case STATE_PAM_VERIFY:
+                text = "Can I trust you?";
+                break;
+            case STATE_PAM_WRONG:
+                text = "Nope!";
+                break;
+            default:
+                text = "WOPR";
+                text2 = "War Operation Plan Response";
+                break;
+        }
 
-            if (text) {
+        if (text) {
+            cairo_text_extents_t extents;
+            double x, y;
+
+            cairo_set_source_rgb(ctx, 0.514, 0.580, 0.588); // dark Base0
+            cairo_set_font_size(ctx, 45.0);
+
+            cairo_text_extents(ctx, text, &extents);
+            x = BUTTON_CENTER - ((extents.width / 2) + extents.x_bearing);
+            y = BUTTON_CENTER - ((extents.height / 2) + extents.y_bearing);
+
+            cairo_move_to(ctx, x, y);
+            cairo_show_text(ctx, text);
+            cairo_close_path(ctx);
+
+            if (text2) {
                 cairo_text_extents_t extents;
                 double x, y;
 
-                cairo_set_source_rgb(ctx, 0.514, 0.580, 0.588); // dark Base0
-                cairo_set_font_size(ctx, 45.0);
+                cairo_set_source_rgb(ctx, 0.345, 0.431, 0.459); // dark Base01
+                cairo_set_font_size(ctx, 25.0);
 
-                cairo_text_extents(ctx, text, &extents);
+                cairo_text_extents(ctx, text2, &extents);
                 x = BUTTON_CENTER - ((extents.width / 2) + extents.x_bearing);
-                y = BUTTON_CENTER - ((extents.height / 2) + extents.y_bearing);
+                y = BUTTON_CENTER - ((extents.height / 2) + extents.y_bearing - 40.);
 
                 cairo_move_to(ctx, x, y);
-                cairo_show_text(ctx, text);
+                cairo_show_text(ctx, text2);
                 cairo_close_path(ctx);
-
-                if (text2) {
-                    cairo_text_extents_t extents;
-                    double x, y;
-
-                    cairo_set_source_rgb(ctx, 0.345, 0.431, 0.459); // dark Base01
-                    cairo_set_font_size(ctx, 25.0);
-
-                    cairo_text_extents(ctx, text2, &extents);
-                    x = BUTTON_CENTER - ((extents.width / 2) + extents.x_bearing);
-                    y = BUTTON_CENTER - ((extents.height / 2) + extents.y_bearing - 40.);
-
-                    cairo_move_to(ctx, x, y);
-                    cairo_show_text(ctx, text2);
-                    cairo_close_path(ctx);
-                }
             }
         }
     }

@@ -20,11 +20,11 @@
 #include "unlock_indicator.h"
 #include "xinerama.h"
 
-#define BUTTON_RADIUS 400
+#define BUTTON_RADIUS 300
 #define BUTTON_SPACE (BUTTON_RADIUS + 10)
 #define BUTTON_CENTER (BUTTON_RADIUS + 10)
 #define BUTTON_DIAMETER (2 * BUTTON_SPACE)
-#define ARCS 30
+#define ARCS 25
 
 /*******************************************************************************
  * Variables defined in i3lock.c.
